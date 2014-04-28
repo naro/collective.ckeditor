@@ -877,25 +877,25 @@
                                     },
                                     setup: function( type, element ) {
                                         if ( type == IMAGE ) {
-                                            if (element.hasClass('image-left')) value = 'left'
-                                            else if (element.hasClass('image-right')) value = 'right'
-                                            else value = '';
+                                            var value = element.getStyle( 'float' );
+                                            switch ( value ) {
+                                                // Ignore those unrelated values.
+                                                case 'inherit':
+                                                case 'none':
+                                                    value = '';
+                                            }
+
+                                            !value && ( value = ( element.getAttribute( 'align' ) || '' ).toLowerCase() );
                                             this.setValue( value );
                                         }
                                     },
                                     commit: function( type, element, internalCommit ) {
                                         var value = this.getValue();
                                         if ( type == IMAGE || type == PREVIEW ) {
-                                            switch ( value ) {
-                                                case 'left':
-                                                case 'right':
-                                                    element.removeClass('image-inline');
-                                                    element.addClass('image-' + value);
-                                                    break;
-                                                default:
-                                                    element.removeClass('image-left').removeClass('image-right');
-                                                    element.addClass('image-inline');
-                                            }
+                                            if ( value )
+                                                element.setStyle( 'float', value );
+                                            else
+                                                element.removeStyle( 'float' );
 
                                             if ( !internalCommit && type == IMAGE ) {
                                                 value = ( element.getAttribute( 'align' ) || '' ).toLowerCase();
@@ -908,7 +908,7 @@
                                                 }
                                             }
                                         } else if ( type == CLEANUP )
-                                            element.removeClass('image-left').removeClass('image-right');
+                                            element.removeStyle( 'float' );
 
                                     }
                                 }
@@ -1124,24 +1124,15 @@
                             id: 'txtGenClass',
                             requiredContent: 'img(cke-xyz)', // Random text like 'xyz' will check if all are allowed.
                             label: editor.lang.common.cssClass,
-                            'default': 'captioned',
+                            'default': '',
                             setup: function( type, element ) {
-                                if ( type == IMAGE ) {
-                                    // remove all image- related classes
-                                    value = element.getAttribute( 'class' ).split(" ");
-                                    idx = $.inArray("image-inline", value);
-                                    if (idx >= 0) value.splice(idx, 1);
-                                    idx = $.inArray("image-left", value);
-                                    if (idx >= 0) value.splice(idx, 1);
-                                    idx = $.inArray("image-right", value);
-                                    if (idx >= 0) value.splice(idx, 1);
-                                    this.setValue( value.join(" ") );
-                                }
+                                if ( type == IMAGE )
+                                    this.setValue( element.getAttribute( 'class' ) );
                             },
                             commit: function( type, element ) {
                                 if ( type == IMAGE ) {
                                     if ( this.getValue() || this.isChanged() )
-                                        element.addClass( this.getValue() );
+                                        element.setAttribute( 'class', this.getValue() );
                                 }
                             }
                         },
