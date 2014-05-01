@@ -1124,7 +1124,7 @@
                             id: 'txtGenClass',
                             requiredContent: 'img(cke-xyz)', // Random text like 'xyz' will check if all are allowed.
                             label: editor.lang.common.cssClass,
-                            'default': 'captioned',
+                            'default': '',
                             setup: function( type, element ) {
                                 if ( type == IMAGE ) {
                                     // remove all image- related classes
