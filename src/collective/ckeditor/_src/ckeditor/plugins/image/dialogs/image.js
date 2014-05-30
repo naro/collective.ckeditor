@@ -911,6 +911,39 @@
                                             element.removeClass('image-left').removeClass('image-right');
 
                                     }
+                                },
+                                {
+                                    type: 'checkbox',
+                                    id: 'isCaptioned',
+                                    label: 'Má popisek',
+                                    'default': '',
+                                    onClick: function() {
+                                        // this = CKEDITOR.ui.dialog.checkbox
+                                    } ,
+                                    setup: function( type, element ) {
+                                        if ( type == IMAGE ) {
+                                            if (element.hasClass('captioned')) {
+                                                this.setValue(true);
+                                            }
+                                            else {
+                                                this.setValue(false);
+                                            }
+                                        }
+                                    },
+                                    commit: function( type, element, internalCommit ) {
+                                        var value = this.getValue();
+
+                                        if ( type == IMAGE || type == PREVIEW ) {
+                                            switch ( value ) {
+                                                case true:
+                                                    element.addClass('captioned');
+                                                    break;
+                                                default:
+                                                    element.removeClass('captioned');
+                                            }
+                                        } else if ( type == CLEANUP )
+                                            element.removeClass('captioned');
+                                    }
                                 }
                                 ]
                             }
@@ -1130,6 +1163,8 @@
                                     // remove all image- related classes
                                     value = element.getAttribute( 'class' ).split(" ");
                                     idx = $.inArray("image-inline", value);
+                                    if (idx >= 0) value.splice(idx, 1);
+                                    idx = $.inArray("captioned", value);
                                     if (idx >= 0) value.splice(idx, 1);
                                     idx = $.inArray("image-left", value);
                                     if (idx >= 0) value.splice(idx, 1);
