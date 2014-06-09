@@ -521,7 +521,7 @@
                         type: 'text',
                         id: 'txtGenTitle',
                         requiredContent: 'img[title]',
-                        label: editor.lang.common.advisoryTitle,
+                        label: 'Pomocný titulek zobrazený pod obrázkem',
                         'default': '',
                         onChange: function() {
                             updatePreview(this.getDialog());
@@ -536,33 +536,17 @@
                                     element.setAttribute('title', this.getValue());
                             } else if (type == PREVIEW)
                                 element.setAttribute('title', this.getValue());
-                            else if (type == CLEANUP)
+                            else if (type == CLEANUP) {
                                 element.removeAttribute('title');
+                            }
+
+                            if (this.getValue()) {
+                                element.addClass('captioned');
+                            } else {
+                                element.removeClass('captioned');
+                            }
 
                         }
-                },  {
-                    id: 'txtAlt',
-                    type: 'text',
-                    label: editor.lang.image.alt,
-                    accessKey: 'T',
-                    'default': '',
-                    onChange: function() {
-                        updatePreview(this.getDialog());
-                    },
-                    setup: function(type, element) {
-                        if (type == IMAGE)
-                            this.setValue(element.getAttribute('alt'));
-                    },
-                    commit: function(type, element) {
-                        if (type == IMAGE) {
-                            if (this.getValue() || this.isChanged())
-                                element.setAttribute('alt', this.getValue());
-                        } else if (type == PREVIEW)
-                            element.setAttribute('alt', this.getValue());
-                        else if (type == CLEANUP)
-                            element.removeAttribute('alt');
-
-                    }
                 }, {
                     type: 'hbox',
                     children: [{
@@ -770,37 +754,6 @@
                                         element.removeClass('image-left').removeClass('image-right');
 
                                 }
-                            }, {
-                                type: 'checkbox',
-                                id: 'isCaptioned',
-                                label: 'Má popisek',
-                                'default': '',
-                                onClick: function() {
-                                    // this = CKEDITOR.ui.dialog.checkbox
-                                },
-                                setup: function(type, element) {
-                                    if (type == IMAGE) {
-                                        if (element.hasClass('captioned')) {
-                                            this.setValue(true);
-                                        } else {
-                                            this.setValue(false);
-                                        }
-                                    }
-                                },
-                                commit: function(type, element, internalCommit) {
-                                    var value = this.getValue();
-
-                                    if (type == IMAGE || type == PREVIEW) {
-                                        switch (value) {
-                                            case true:
-                                                element.addClass('captioned');
-                                                break;
-                                            default:
-                                                element.removeClass('captioned');
-                                        }
-                                    } else if (type == CLEANUP)
-                                        element.removeClass('captioned');
-                                }
                             }]
                         }]
                     }, {
@@ -980,6 +933,29 @@
                             if (this.getValue() || this.isChanged())
                                 element.setAttribute('longDesc', this.getValue());
                         }
+                    }
+                }, {
+                    id: 'txtAlt',
+                    type: 'text',
+                    label: editor.lang.image.alt,
+                    accessKey: 'T',
+                    'default': '',
+                    onChange: function() {
+                        updatePreview(this.getDialog());
+                    },
+                    setup: function(type, element) {
+                        if (type == IMAGE)
+                            this.setValue(element.getAttribute('alt'));
+                    },
+                    commit: function(type, element) {
+                        if (type == IMAGE) {
+                            if (this.getValue() || this.isChanged())
+                                element.setAttribute('alt', this.getValue());
+                        } else if (type == PREVIEW)
+                            element.setAttribute('alt', this.getValue());
+                        else if (type == CLEANUP)
+                            element.removeAttribute('alt');
+
                     }
                 }, {
                     type: 'hbox',
