@@ -245,8 +245,8 @@
 
         return {
             title: editor.lang.image[dialogType == 'image' ? 'title' : 'titleButton'],
-            minWidth: 420,
-            minHeight: 360,
+            minWidth: 775,
+            minHeight: 460,
             onShow: function() {
                 this.imageElement = false;
                 this.linkElement = false;
@@ -549,6 +549,7 @@
                         }
                 }, {
                     type: 'hbox',
+                    widths: ['112px', '675px'],
                     children: [{
                         id: 'basic',
                         type: 'vbox',
@@ -758,14 +759,14 @@
                         }]
                     }, {
                         type: 'vbox',
-                        height: '250px',
+                        height: '350px',
                         children: [{
                             type: 'html',
                             id: 'htmlPreview',
                             style: 'width:95%;',
                             html: '<div>' + CKEDITOR.tools.htmlEncode(editor.lang.common.preview) + '<br>' +
                                 '<div id="' + imagePreviewLoaderId + '" class="ImagePreviewLoader" style="display:none"><div class="loading">&nbsp;</div></div>' +
-                                '<div class="ImagePreviewBox"><table><tr><td>' +
+                                '<div class="ImagePreviewBox" style="width:100%; height:400px"><table><tr><td>' +
                                 '<a href="javascript:void(0)" target="_blank" onclick="return false;" id="' + previewLinkId + '">' +
                                 '<img id="' + previewImageId + '" alt="" /></a>' +
                                 (editor.config.image_previewText || 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. ' +
