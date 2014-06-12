@@ -521,7 +521,7 @@
                         type: 'text',
                         id: 'txtGenTitle',
                         requiredContent: 'img[title]',
-                        label: 'Pomocný titulek zobrazený pod obrázkem',
+                        label: 'Popisek obrázku (zobrazený pod obrázkem a při rozkliknutí obrázku)',
                         'default': '',
                         onChange: function() {
                             updatePreview(this.getDialog());
