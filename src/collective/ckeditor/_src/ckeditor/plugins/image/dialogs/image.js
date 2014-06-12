@@ -733,11 +733,14 @@
                                         switch (value) {
                                             case 'left':
                                             case 'right':
+                                                element.removeClass('image-left');
+                                                element.removeClass('image-right');
                                                 element.removeClass('image-inline');
                                                 element.addClass('image-' + value);
                                                 break;
                                             default:
-                                                element.removeClass('image-left').removeClass('image-right');
+                                                element.removeClass('image-left');
+                                                element.removeClass('image-right');
                                                 element.addClass('image-inline');
                                         }
 
