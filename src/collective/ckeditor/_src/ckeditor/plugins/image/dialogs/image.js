@@ -518,9 +518,6 @@
                         }]
                     }]
                 }, {
-                    type: 'hbox',
-                    widths: ['80%', '20%'],
-                    children: [{
                         type: 'text',
                         id: 'txtGenTitle',
                         requiredContent: 'img[title]',
@@ -551,6 +548,9 @@
 
                         }
                     }, {
+                    type: 'hbox',
+                    widths: ['50%', '50%'],
+                    children: [ {
                         id: 'cmbAlign',
                         requiredContent: 'img{float}',
                         type: 'select',
@@ -574,7 +574,7 @@
                         ],
                         onChange: function() {
                             updatePreview(this.getDialog());
-                            commitInternally.call(this, 'advanced:txtdlgGenStyle');
+                            // commitInternally.call(this, 'advanced:txtdlgGenStyle');
                         },
                         setup: function(type, element) {
                             if (type == IMAGE) {
@@ -614,6 +614,50 @@
                             } else if (type == CLEANUP)
                                 element.removeClass('image-left').removeClass('image-right');
 
+                        }
+                    }, {
+                        id: 'cmbImgSize',
+                        requiredContent: 'img[src]',
+                        type: 'select',
+                        style: 'width:120px',
+                        label: 'Velikost',
+                        'default': '',
+                        items: [
+                            ['Full - 625px', 'full'],
+                            ['Preview - 400px', 'preview'],
+                            ['Half - 300px', 'half'],
+                            ['Mini - 200px', 'mini'],
+                            ['Thumb - 128px', 'thumb'],
+                        ],
+                        onChange: function() {
+                            updatePreview(this.getDialog());
+                            // commitInternally.call(this, 'advanced:txtdlgGenStyle');
+                        },
+                        setup: function(type, element) {
+                            if (type == IMAGE) {
+                                var re = /\/image_([\w-]+)/gi;
+                                var str = element.getAttribute('src');
+                                var scale = re.exec(str);
+                                if (scale != null) {
+                                    scale = scale[1];
+                                    this.setValue(scale);
+                                }
+                            }
+                        },
+                        commit: function(type, element, internalCommit) {
+                            var value = this.getValue();
+                            if (type == IMAGE || type == PREVIEW) {
+                                // podle value nastavit image URL
+                                var re = /\/image_([\w-]+)/gi;
+                                var str = CKEDITOR.tools.trim(this.getDialog().getValueOf('info', 'txtUrl'));
+                                var scale = re.exec(str);
+                                if ((scale != null) && (value) && (value != scale[1])) {
+                                    str = str.replace(re, '/image_'+value);
+                                    this.getDialog().setValueOf('info', 'txtUrl', str);
+                                }
+                            } else if (type == CLEANUP) {
+                                // pass
+                            }
                         }
                     }]
                 }, {
