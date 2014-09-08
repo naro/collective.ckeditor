@@ -218,7 +218,7 @@ class CKeditorView(BrowserView):
         """
         params = {}
         cke_properties = self.cke_properties
-        unchangedProps = ('width', 'height', 'bodyId', 'entities',
+        unchangedProps = ('width', 'height', 'bodyId', 'bodyClass', 'entities',
                           'entities_greek', 'entities_latin',
                           'forcePasteAsPlainText', 'toolbar',
                           'image2_alignClasses', 'image2_captionedClass')
@@ -236,18 +236,7 @@ class CKeditorView(BrowserView):
         params['filebrowserFlashBrowseUrl'] = flash_url
         # the basehref must be set in wysiwyg template
         # params['baseHref'] = self.cke_basehref
-        # Radim - zmena pro PrFUK - rozsireni body class o Plone body class
-        if self.geCK_JSProperty('bodyClass'):
-            params['bodyClass'] = self.geCK_JSProperty('bodyClass')
-        # bodyClass = cke_properties.getProperty('bodyClass') or ''
-        # plone_view = component.getMultiAdapter((self.context, self.request), name='plone')
 
-        # class FakeTemplate(object):
-        #     def getId(self):
-        #         return 'ckeditor'
-
-        # bodyClass = bodyClass + ' ' + plone_view.bodyClass(FakeTemplate(), self)
-        # params['bodyClass'] = "'{0}'".format(bodyClass.strip())
         return params
 
     def getCK_plone_config(self):
