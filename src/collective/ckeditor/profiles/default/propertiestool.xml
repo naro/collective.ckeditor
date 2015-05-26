@@ -32,6 +32,10 @@
       /* Add items to array of allowedContent rules */
       []
   </property>
+  <property name="disallowedContent" type="text">
+    /* set disallowedContent rules Example: 'h1 style'*/
+    ''
+  </property>
   <property name="menuStyles" type="text">
 [
   /* Block Styles */
@@ -72,6 +76,7 @@
   <property name="enableScaytOnStartup" type="boolean">False</property>
   <property name="bodyId" type="string">content</property>
   <property name="bodyClass" type="string"></property>
+  <property name="defaultTableWidth" type="string">500px</property>
 
   <!-- skin properties -->
   <property name="width" type="string"></property>
